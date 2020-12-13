@@ -4,7 +4,8 @@
   "done": "Ferdig",
   "clear": "TOMT",
   "commission": "Provisjon:",
-  "change": "ENDRE",
+  "currentCommission": "Nåværende provisjon:",
+  "commissionPercent": "Provisjon %",
   "validationMessage": "Ugyldig nummer inntastet",
   "todaysIntake": "Dagens Inntak",
   "monthsIntake": "Måneds Inntak:",
@@ -20,5 +21,5 @@
   "goalSalaryResult": "Mål lønn:",
   "salaryWithCurrentIntake": "Lønn med nåværende inntak:",
   "intakeNeededToReachGoal": "Må ta inn å oppnå mål:",
-  "intakeNeededPerDay": "Må ta inn per dag:",
+  "intakeNeededPerDay": "Må ta inn per dag:"
 }

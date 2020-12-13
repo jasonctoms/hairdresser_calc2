@@ -24,10 +24,15 @@
     "type": "text",
     "description": "Commission"
   },
-  "change": "CHANGE",
-  "@change": {
+  "currentCommission": "Current commission:",
+  "@currentCommission": {
     "type": "text",
-    "description": "Change button"
+    "description": "Commission"
+  },
+  "commissionPercent": "Commission %",
+  "@commissionPercent": {
+    "type": "text",
+    "description": "Commission"
   },
   "validationMessage": "Invalid number entered",
   "@validationMessage": {

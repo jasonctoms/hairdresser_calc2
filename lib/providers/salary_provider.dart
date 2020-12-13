@@ -47,4 +47,50 @@ class SalaryProvider with ChangeNotifier {
     _goalNet = _box.get(goalNetKey, defaultValue: 100000);
     _goalSalary = _box.get(goalSalaryKey, defaultValue: 40000);
   }
+
+  setCommission(double newCommission) {
+    _commissionValue = newCommission;
+    _box.put(commissionKey, _commissionValue);
+    notifyListeners();
+  }
+
+  addDay() {
+    if (daysLeft == 31) {
+      _daysLeft = 1;
+    } else {
+      _daysLeft += 1;
+    }
+    _box.put(daysLeftKey, _daysLeft);
+    notifyListeners();
+  }
+
+  subtractDay() {
+    if (daysLeft == 1) {
+      _daysLeft = 31;
+    } else {
+      _daysLeft -= 1;
+    }
+    _box.put(daysLeftKey, _daysLeft);
+    notifyListeners();
+  }
+
+  updateTodaysIntake(int todaysIntake) {
+    _todaysIntake = todaysIntake;
+    _box.put(todaysIntakeKey, _todaysIntake);
+    notifyListeners();
+  }
+
+  addTodaysIntakeToMonth() {
+    _monthsIntake += _todaysIntake;
+    _box.put(monthsIntakeKey, _monthsIntake);
+    notifyListeners();
+  }
+
+  clearMonthlyIntake() {
+    _monthsIntake = 0;
+    _box.put(monthsIntakeKey, _monthsIntake);
+    notifyListeners();
+  }
+
+  updateGoal(GoalSelection goalSelection) {}
 }

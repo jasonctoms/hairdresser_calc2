@@ -1,0 +1,112 @@
+{
+  "appName": "Hairdre$$er",
+  "@appName": {
+    "type": "text",
+    "description": "The app name."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "type": "text",
+    "description": "Cancel"
+  },
+  "done": "Done",
+  "@done": {
+    "type": "text",
+    "description": "Done"
+  },
+  "clear": "CLEAR",
+  "@clear": {
+    "type": "text",
+    "description": "Clear button"
+  },
+  "commission": "Commission:",
+  "@commission": {
+    "type": "text",
+    "description": "Commission"
+  },
+  "change": "CHANGE",
+  "@change": {
+    "type": "text",
+    "description": "Change button"
+  },
+  "validationMessage": "Invalid number entered",
+  "@validationMessage": {
+    "type": "text",
+    "description": "Validation message for text fields"
+  },
+  "todaysIntake": "Today's Intake",
+  "@todaysIntake": {
+    "type": "text",
+    "description": "Intake title and text field hint"
+  },
+  "monthsIntake": "Month's Intake",
+  "@monthsIntake": {
+    "type": "text",
+    "description": "Month's intake title"
+  },
+  "daysLeft": "Work Days Left",
+  "@daysLeft": {
+    "type": "text",
+    "description": "How many work days left in the pay period"
+  },
+  "goalGross": "Goal Gross",
+  "@goalGross": {
+    "type": "text",
+    "description": "Goal gross text field hint"
+  },
+  "goalNet": "Goal Net",
+  "@goalNet": {
+    "type": "text",
+    "description": "Goal net text field hint"
+  },
+  "goalSalary": "Goal Salary",
+  "@goalSalary": {
+    "type": "text",
+    "description": "Goal salary text field hint"
+  },
+  "gross": "Gross",
+  "@gross": {
+    "type": "text",
+    "description": "Gross selection"
+  },
+  "net": "Net",
+  "@net": {
+    "type": "text",
+    "description": "Net selection"
+  },
+  "salary": "Salary",
+  "@salary": {
+    "type": "text",
+    "description": "Salary selection"
+  },
+  "goalGrossResult": "Goal gross:",
+  "@goalGrossResult": {
+    "type": "text",
+    "description": "Goal gross title"
+  },
+  "goalNetResult": "Goal net:",
+  "@goalNetResult": {
+    "type": "text",
+    "description": "Goal net title"
+  },
+  "goalSalaryResult": "Goal salary:",
+  "@goalSalaryResult": {
+    "type": "text",
+    "description": "Goal salary title"
+  },
+  "salaryWithCurrentIntake": "Salary with current intake:",
+  "@salaryWithCurrentIntake": {
+    "type": "text",
+    "description": "Salary with current intake"
+  },
+  "intakeNeededToReachGoal": "Intake needed to reach goal:",
+  "@intakeNeededToReachGoal": {
+    "type": "text",
+    "description": "Intake needed to reach goal"
+  },
+  "intakeNeededPerDay": "Intake needed per day:",
+  "@intakeNeededPerDay": {
+    "type": "text",
+    "description": "Intake needed per work day to reach goal"
+  }
+}

@@ -22,7 +22,6 @@ class _SalaryPageState extends State<SalaryPage> {
   final _intakeController = TextEditingController();
   final _intakeFocus = FocusNode();
 
-  bool _showGoalValidationError = false;
   final _goalFieldKey = GlobalKey(debugLabel: 'goal');
   final _goalController = TextEditingController();
   final _goalFocus = FocusNode();
@@ -130,7 +129,8 @@ class _SalaryPageState extends State<SalaryPage> {
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return CommissionDialog(commission: "${context.read<SalaryProvider>().commissionValue * 100}%");
+                  return CommissionDialog(
+                      commission: "${context.read<SalaryProvider>().commissionValue * 100}%");
                 });
           },
           child: Text(
@@ -159,7 +159,8 @@ class _SalaryPageState extends State<SalaryPage> {
           style: Theme.of(context).textTheme.bodyText1,
           decoration: InputDecoration(
             labelStyle: Theme.of(context).textTheme.bodyText1,
-            errorText: _showIntakeValidationError ? Translations.of(context).validationMessage : null,
+            errorText:
+                _showIntakeValidationError ? Translations.of(context).validationMessage : null,
             labelText: Translations.of(context).todaysIntake,
             border: const OutlineInputBorder(),
           ),
@@ -222,11 +223,11 @@ class _SalaryPageState extends State<SalaryPage> {
                 setState(() {
                   _goalSelection = value;
                   if (value == GoalSelection.GROSS)
-                    _goalController.text = "${context.watch<SalaryProvider>().goalGross}";
+                    _goalController.text = "${context.read<SalaryProvider>().goalGross}";
                   else if (value == GoalSelection.NET)
-                    _goalController.text = "${context.watch<SalaryProvider>().goalNet}";
+                    _goalController.text = "${context.read<SalaryProvider>().goalNet}";
                   else
-                    _goalController.text = "${context.watch<SalaryProvider>().goalSalary}";
+                    _goalController.text = "${context.read<SalaryProvider>().goalSalary}";
                 });
               },
             ),
@@ -254,12 +255,16 @@ class _SalaryPageState extends State<SalaryPage> {
         style: Theme.of(context).textTheme.bodyText1,
         decoration: InputDecoration(
           labelStyle: Theme.of(context).textTheme.bodyText1,
-          errorText: _showGoalValidationError ? Translations.of(context).validationMessage : null,
+          errorText: context.watch<SalaryProvider>().goalValidationError
+              ? Translations.of(context).validationMessage
+              : null,
           labelText: _pickGoalLabel(),
           border: const OutlineInputBorder(),
         ),
         keyboardType: TextInputType.number,
-        onChanged: context.watch<SalaryProvider>().updateGoal(_goalSelection),
+        onChanged: (text) {
+          context.read<SalaryProvider>().updateGoal(_goalSelection, text);
+        },
       ),
     ]);
 
@@ -332,7 +337,8 @@ class _SalaryPageState extends State<SalaryPage> {
               ),
               Expanded(
                 flex: 1,
-                child: Text(Translations.of(context).intakeNeededPerDay, textAlign: TextAlign.center),
+                child:
+                    Text(Translations.of(context).intakeNeededPerDay, textAlign: TextAlign.center),
               ),
             ],
           ),
@@ -345,7 +351,8 @@ class _SalaryPageState extends State<SalaryPage> {
                   remainingIntake().toKroner(),
                   maxLines: 1,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.teal[300], fontSize: 30.0),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.teal[300], fontSize: 30.0),
                 ),
               ),
               Expanded(
@@ -354,7 +361,8 @@ class _SalaryPageState extends State<SalaryPage> {
                   amountNeededPerDay().toKroner(),
                   maxLines: 1,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.teal[300], fontSize: 30.0),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.teal[300], fontSize: 30.0),
                 ),
               ),
             ],

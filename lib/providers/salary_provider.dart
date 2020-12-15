@@ -21,6 +21,8 @@ class SalaryProvider with ChangeNotifier {
   int _goalNet;
   int _goalSalary;
 
+  bool _goalValidationError = false;
+
   double get commissionValue => _commissionValue;
 
   int get todaysIntake => _todaysIntake;
@@ -34,6 +36,8 @@ class SalaryProvider with ChangeNotifier {
   int get goalNet => _goalNet;
 
   int get goalSalary => _goalSalary;
+
+  bool get goalValidationError => _goalValidationError;
 
   SalaryProvider() {
     _box = Hive.box(salaryBox);
@@ -92,5 +96,42 @@ class SalaryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateGoal(GoalSelection goalSelection) {}
+  updateGoal(GoalSelection goalSelection, String input) {
+    try {
+      if (input == null || input.isEmpty) {
+        _goalGross = 0;
+        _goalNet = 0;
+        _goalSalary = 0;
+      } else {
+        final inputInt = int.parse(input);
+        if (goalSelection == GoalSelection.GROSS) {
+          _goalGross = inputInt;
+          var net = inputInt * 0.8;
+          _goalNet = net.round();
+          var salary = net * _commissionValue;
+          _goalSalary = salary.round();
+        } else if (goalSelection == GoalSelection.NET) {
+          _goalNet = inputInt;
+          var gross = inputInt / 0.8;
+          _goalGross = gross.round();
+          var salary = inputInt * _commissionValue;
+          _goalSalary = salary.round();
+        } else {
+          _goalSalary = inputInt;
+          var net = inputInt / _commissionValue;
+          _goalNet = net.round();
+          var gross = net / 0.8;
+          _goalGross = gross.round();
+        }
+      }
+      _goalValidationError = false;
+      _box.put(goalGrossKey, _goalGross);
+      _box.put(goalNetKey, _goalNet);
+      _box.put(goalSalaryKey, _goalSalary);
+    } on Exception catch (e) {
+      print('Error: $e');
+      _goalValidationError = true;
+    }
+    notifyListeners();
+  }
 }

@@ -21,7 +21,7 @@ class _CommissionDialogState extends State<CommissionDialog> {
   bool _showValidationError = false;
   final _inputKey = GlobalKey(debugLabel: 'commissionText');
 
-  void _updateCommission(String input) {
+  void updateCommission(String input) {
     setState(() {
       try {
         final inputDouble = (double.parse(input)) / 100.0;
@@ -39,6 +39,11 @@ class _CommissionDialogState extends State<CommissionDialog> {
     });
   }
 
+  saveCommission(BuildContext context) {
+    Navigator.pop(context, _commissionText);
+    context.read<SalaryProvider>().setCommission(_commissionValue);
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentCommission = Padding(
@@ -49,7 +54,7 @@ class _CommissionDialogState extends State<CommissionDialog> {
           Text(Translations.of(context).currentCommission),
           Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
           Text(
-            widget.commission + '%',
+            widget.commission,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
@@ -66,7 +71,7 @@ class _CommissionDialogState extends State<CommissionDialog> {
         border: const OutlineInputBorder(),
       ),
       keyboardType: TextInputType.number,
-      onChanged: _updateCommission,
+      onChanged: updateCommission,
     );
 
     return AlertDialog(
@@ -81,14 +86,9 @@ class _CommissionDialogState extends State<CommissionDialog> {
         ),
         TextButton(
           child: Text(Translations.of(context).done),
-          onPressed: (_showValidationError || _commissionText == null) ? null : () => _saveCommission(context),
+          onPressed: (_showValidationError || _commissionText == null) ? null : () => saveCommission(context),
         ),
       ],
     );
-  }
-
-  _saveCommission(BuildContext context) {
-    Navigator.pop(context, _commissionText);
-    context.read<SalaryProvider>().setCommission(_commissionValue);
   }
 }

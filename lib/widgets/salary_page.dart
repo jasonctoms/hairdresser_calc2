@@ -6,7 +6,6 @@ import 'package:hairdresser_calc2/widgets/commission_dialog.dart';
 import 'package:hairdresser_calc2/widgets/incdec_widget.dart';
 import 'package:provider/provider.dart';
 
-const salaryBox = "salaryBoxKey";
 enum GoalSelection { GROSS, NET, SALARY }
 
 class SalaryPage extends StatefulWidget {
@@ -119,10 +118,10 @@ class _SalaryPageState extends State<SalaryPage> {
       decrementFunction: () => context.read<SalaryProvider>().subtractDay(),
     );
 
-    final commission = Row(
+    final commission = Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(Translations.of(context).commission),
-        Padding(padding: EdgeInsets.only(right: 2.0)),
         TextButton(
           onPressed: () {
             showDialog<String>(
@@ -130,14 +129,14 @@ class _SalaryPageState extends State<SalaryPage> {
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return CommissionDialog(
-                      commission: "${context.read<SalaryProvider>().commissionValue * 100}%");
+                      commission: "${context.watch<SalaryProvider>().commissionValue * 100}%");
                 });
           },
           child: Text(
             "${context.watch<SalaryProvider>().commissionValue * 100}%",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: Theme.of(context).textTheme.headline6.fontSize),
           ),
-        )
+        ),
       ],
     );
 
@@ -381,6 +380,7 @@ class _SalaryPageState extends State<SalaryPage> {
           child: Column(
             children: [
               topRow,
+              Padding(padding: EdgeInsets.only(bottom: 8)),
               currentIntakeRow,
               goal,
               goalInfo,

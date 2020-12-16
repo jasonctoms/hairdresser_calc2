@@ -5,6 +5,7 @@ import 'package:hairdresser_calc2/providers/salary_provider.dart';
 import 'package:hairdresser_calc2/widgets/commission_dialog.dart';
 import 'package:hairdresser_calc2/widgets/goal_widget.dart';
 import 'package:hairdresser_calc2/widgets/incdec_widget.dart';
+import 'package:hairdresser_calc2/widgets/intake_edit_dialog.dart';
 import 'package:hairdresser_calc2/widgets/intake_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -202,7 +203,19 @@ class _SalaryPageState extends State<SalaryPage> {
                 onUpdate: (text) => context.read<SalaryProvider>().updateTodaysIntake(text),
                 onStore: () => context.read<SalaryProvider>().addTodaysIntakeToMonth(),
                 onClear: () => context.read<SalaryProvider>().clearMonthlyIntake(),
-                onEdit: () => {},
+                onEdit: () {
+                  showDialog<String>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return IntakeEditDialog(
+                          initialIntake: context.watch<SalaryProvider>().monthsIntake,
+                          dialogTitle: Translations.of(context).currentMonthsIntake,
+                          onSave: (updatedValue) =>
+                              context.read<SalaryProvider>().updateMonthlyIntake(updatedValue),
+                        );
+                      });
+                },
                 monthlyValue: context.watch<SalaryProvider>().monthsIntake.toKroner(),
                 validationError: context.watch<SalaryProvider>().todaysIntakeValidationError,
                 initialValue: context.watch<SalaryProvider>().todaysIntake,

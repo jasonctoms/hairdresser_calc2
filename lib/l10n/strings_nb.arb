@@ -9,6 +9,8 @@
   "validationMessage": "Ugyldig nummer inntastet",
   "todaysIntake": "Dagens Inntak",
   "monthsIntake": "Måneds Inntak:",
+  "currentMonthsIntake": "Current Måneds Inntak:",
+  "updatedIntake": "Updatert inntak",
   "daysLeft": "Job Dager Igjen:",
   "goalGross": "Mål Brutto",
   "goalNet": "Mål Netto",

@@ -44,10 +44,20 @@
     "type": "text",
     "description": "Intake title and text field hint"
   },
-  "monthsIntake": "Month's Intake",
+  "monthsIntake": "Month's Intake:",
   "@monthsIntake": {
     "type": "text",
     "description": "Month's intake title"
+  },
+  "currentMonthsIntake": "Current Month's Intake:",
+  "@currentMonthsIntake": {
+    "type": "text",
+    "description": "Month's intake edit dialog title"
+  },
+  "updatedIntake": "Updated intake",
+  "@updatedIntake": {
+    "type": "text",
+    "description": "Updated intake text field label"
   },
   "daysLeft": "Work Days Left:",
   "@daysLeft": {

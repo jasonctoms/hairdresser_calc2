@@ -111,6 +111,12 @@ class SalaryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  updateMonthlyIntake(int updatedIntake) {
+    _monthsIntake = updatedIntake;
+    _box.put(monthsIntakeKey, _monthsIntake);
+    notifyListeners();
+  }
+
   updateGoal(GoalSelection goalSelection, String input) {
     try {
       if (input == null || input.isEmpty) {

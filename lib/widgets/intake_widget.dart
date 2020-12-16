@@ -81,14 +81,17 @@ class _IntakeWidgetState extends State<IntakeWidget> {
       ),
     );
 
-    final monthsIntake = Column(
-      children: [
-        Text(widget.monthlyLabel),
-        Text(
-          widget.monthlyValue,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ],
+    final monthsIntake = GestureDetector(
+      onTap: () => widget.onEdit(),
+      child: Column(
+        children: [
+          Text(widget.monthlyLabel),
+          Text(
+            widget.monthlyValue,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
 
     return Row(

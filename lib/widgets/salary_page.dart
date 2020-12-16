@@ -5,6 +5,7 @@ import 'package:hairdresser_calc2/providers/salary_provider.dart';
 import 'package:hairdresser_calc2/widgets/commission_dialog.dart';
 import 'package:hairdresser_calc2/widgets/goal_widget.dart';
 import 'package:hairdresser_calc2/widgets/incdec_widget.dart';
+import 'package:hairdresser_calc2/widgets/intake_widget.dart';
 import 'package:provider/provider.dart';
 
 class SalaryPage extends StatefulWidget {
@@ -15,50 +16,6 @@ class SalaryPage extends StatefulWidget {
 }
 
 class _SalaryPageState extends State<SalaryPage> {
-  bool _showIntakeValidationError = false;
-  final _intakeFieldKey = GlobalKey(debugLabel: 'currentIntake');
-  final _intakeController = TextEditingController();
-  final _intakeFocus = FocusNode();
-
-  @override
-  void dispose() {
-    _intakeFocus.dispose();
-    _intakeController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _intakeController.text = context.read<SalaryProvider>().todaysIntake.toString();
-    _intakeFocus.addListener(onIntakeFocusChange);
-  }
-
-  onIntakeFocusChange() {
-    if (_intakeFocus.hasFocus) {
-      _intakeController.selection = TextSelection(
-        baseOffset: 0,
-        extentOffset: _intakeController.text.length,
-      );
-    }
-  }
-
-  updateTodaysIntake(String input) {
-    if (input == null || input.isEmpty) {
-      _showIntakeValidationError = false;
-      context.read<SalaryProvider>().updateTodaysIntake(0);
-    } else {
-      try {
-        final inputInt = int.parse(input);
-        _showIntakeValidationError = false;
-        context.read<SalaryProvider>().updateTodaysIntake(inputInt);
-      } on Exception catch (e) {
-        print('Error: $e');
-        _showIntakeValidationError = true;
-      }
-    }
-  }
-
   int remainingIntake() {
     var goalGross = context.watch<SalaryProvider>().goalGross;
     var monthsIntake = context.watch<SalaryProvider>().monthsIntake;
@@ -124,58 +81,6 @@ class _SalaryPageState extends State<SalaryPage> {
       children: [
         commission,
         daysLeft,
-      ],
-    );
-
-    final todaysIntakeField = Expanded(
-      child: Padding(
-        padding: EdgeInsets.only(right: 8.0),
-        child: TextField(
-          key: _intakeFieldKey,
-          controller: _intakeController,
-          focusNode: _intakeFocus,
-          style: Theme.of(context).textTheme.bodyText1,
-          decoration: InputDecoration(
-            labelStyle: Theme.of(context).textTheme.bodyText1,
-            errorText:
-                _showIntakeValidationError ? Translations.of(context).validationMessage : null,
-            labelText: Translations.of(context).todaysIntake,
-            border: const OutlineInputBorder(),
-          ),
-          keyboardType: TextInputType.number,
-          onChanged: updateTodaysIntake,
-        ),
-      ),
-    );
-
-    final monthsIntake = Column(
-      children: [
-        Text(Translations.of(context).monthsIntake),
-        Text(
-          "${context.watch<SalaryProvider>().monthsIntake.toKroner()}",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-
-    final currentIntakeRow = Row(
-      children: [
-        todaysIntakeField,
-        IconButton(
-          icon: Icon(
-            Icons.arrow_forward,
-            color: Colors.teal[400],
-          ),
-          onPressed: () => context.read<SalaryProvider>().addTodaysIntakeToMonth(),
-        ),
-        monthsIntake,
-        IconButton(
-          icon: Icon(
-            Icons.clear,
-            color: Colors.red,
-          ),
-          onPressed: () => context.read<SalaryProvider>().clearMonthlyIntake(),
-        ),
       ],
     );
 
@@ -293,7 +198,17 @@ class _SalaryPageState extends State<SalaryPage> {
             children: [
               topRow,
               Padding(padding: EdgeInsets.only(bottom: 8)),
-              currentIntakeRow,
+              IntakeWidget(
+                onUpdate: (text) => context.read<SalaryProvider>().updateTodaysIntake(text),
+                onStore: () => context.read<SalaryProvider>().addTodaysIntakeToMonth(),
+                onClear: () => context.read<SalaryProvider>().clearMonthlyIntake(),
+                onEdit: () => {},
+                monthlyValue: context.watch<SalaryProvider>().monthsIntake.toKroner(),
+                validationError: context.watch<SalaryProvider>().todaysIntakeValidationError,
+                initialValue: context.watch<SalaryProvider>().todaysIntake,
+                todayLabel: Translations.of(context).todaysIntake,
+                monthlyLabel: Translations.of(context).monthsIntake,
+              ),
               GoalWidget(),
               goalInfo,
               currentSalary,

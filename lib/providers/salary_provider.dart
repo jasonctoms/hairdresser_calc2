@@ -23,6 +23,7 @@ class SalaryProvider with ChangeNotifier {
   int _goalSalary;
 
   bool _goalValidationError = false;
+  bool _todaysIntakeValidationError = false;
 
   double get commissionValue => _commissionValue;
 
@@ -39,6 +40,8 @@ class SalaryProvider with ChangeNotifier {
   int get goalSalary => _goalSalary;
 
   bool get goalValidationError => _goalValidationError;
+
+  bool get todaysIntakeValidationError => _todaysIntakeValidationError;
 
   SalaryProvider() {
     _box = Hive.box(salaryBox);
@@ -79,9 +82,20 @@ class SalaryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateTodaysIntake(int todaysIntake) {
-    _todaysIntake = todaysIntake;
-    _box.put(todaysIntakeKey, _todaysIntake);
+  updateTodaysIntake(String todaysIntake) {
+    try {
+      if (todaysIntake == null || todaysIntake.isEmpty) {
+        _todaysIntake = 0;
+      } else {
+        final inputInt = int.parse(todaysIntake);
+        _todaysIntake = inputInt;
+      }
+      _todaysIntakeValidationError = false;
+      _box.put(todaysIntakeKey, _todaysIntake);
+    } on Exception catch (e) {
+      print('Error: $e');
+      _todaysIntakeValidationError = true;
+    }
     notifyListeners();
   }
 

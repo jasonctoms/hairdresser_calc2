@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hairdresser_calc2/widgets/salary_page.dart';
+import 'package:hairdresser_calc2/widgets/goal_widget.dart';
 import 'package:hive/hive.dart';
 
 const salaryBox = "salaryBoxKey";

@@ -4,8 +4,10 @@ import 'package:hive/hive.dart';
 
 const salaryBox = "salaryBoxKey";
 const commissionKey = 'commissionKey';
-const todaysIntakeKey = 'todaysIntakeKey';
-const monthsIntakeKey = 'monthsIntakeKey';
+const dailyTreatmentsKey = 'dailyTreatmentsKey';
+const monthlyTreatmentsKey = 'monthlyTreatmentsKey';
+const dailySalesKey = 'dailySalesKey';
+const monthlySalesKey = 'monthlySalesKey';
 const daysLeftKey = 'daysLeftKey';
 const goalGrossKey = 'goalGrossKey';
 const goalNetKey = 'goalNetKey';
@@ -15,21 +17,28 @@ class SalaryProvider with ChangeNotifier {
   Box _box;
 
   double _commissionValue;
-  int _todaysIntake;
-  int _monthsIntake;
+  int _dailyTreatments;
+  int _monthlyTreatments;
+  int _dailySales;
+  int _monthlySales;
   int _daysLeft;
   int _goalGross;
   int _goalNet;
   int _goalSalary;
 
   bool _goalValidationError = false;
-  bool _todaysIntakeValidationError = false;
+  bool _dailyTreatmentsValidationError = false;
+  bool _dailySalesValidationError = false;
 
   double get commissionValue => _commissionValue;
 
-  int get todaysIntake => _todaysIntake;
+  int get dailyTreatments => _dailyTreatments;
 
-  int get monthsIntake => _monthsIntake;
+  int get monthlyTreatments => _monthlyTreatments;
+  
+  int get dailySales => _dailySales;
+  
+  int get monthlySales => _monthlySales;
 
   int get daysLeft => _daysLeft;
 
@@ -41,15 +50,19 @@ class SalaryProvider with ChangeNotifier {
 
   bool get goalValidationError => _goalValidationError;
 
-  bool get todaysIntakeValidationError => _todaysIntakeValidationError;
+  bool get dailyTreatmentsValidationError => _dailyTreatmentsValidationError;
+  
+  bool get dailySalesValidationError => _dailySalesValidationError;
 
   SalaryProvider() {
     _box = Hive.box(salaryBox);
 
     // initialize values
     _commissionValue = _box.get(commissionKey, defaultValue: 0.4);
-    _todaysIntake = _box.get(todaysIntakeKey, defaultValue: 0);
-    _monthsIntake = _box.get(monthsIntakeKey, defaultValue: 0);
+    _dailyTreatments = _box.get(dailyTreatmentsKey, defaultValue: 0);
+    _monthlyTreatments = _box.get(monthlyTreatmentsKey, defaultValue: 0);
+    _dailySales = _box.get(dailySalesKey, defaultValue: 0);
+    _monthlySales = _box.get(monthlySalesKey, defaultValue: 0);
     _daysLeft = _box.get(daysLeftKey, defaultValue: 20);
     _goalGross = _box.get(goalGrossKey, defaultValue: 125000);
     _goalNet = _box.get(goalNetKey, defaultValue: 100000);
@@ -82,38 +95,73 @@ class SalaryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateTodaysIntake(String todaysIntake) {
+  updateDailyTreatments(String dailyTreatments) {
     try {
-      if (todaysIntake == null || todaysIntake.isEmpty) {
-        _todaysIntake = 0;
+      if (dailyTreatments == null || dailyTreatments.isEmpty) {
+        _dailyTreatments = 0;
       } else {
-        final inputInt = int.parse(todaysIntake);
-        _todaysIntake = inputInt;
+        final inputInt = int.parse(dailyTreatments);
+        _dailyTreatments = inputInt;
       }
-      _todaysIntakeValidationError = false;
-      _box.put(todaysIntakeKey, _todaysIntake);
+      _dailyTreatmentsValidationError = false;
+      _box.put(dailyTreatmentsKey, _dailyTreatments);
     } on Exception catch (e) {
       print('Error: $e');
-      _todaysIntakeValidationError = true;
+      _dailyTreatmentsValidationError = true;
     }
     notifyListeners();
   }
 
-  addTodaysIntakeToMonth() {
-    _monthsIntake += _todaysIntake;
-    _box.put(monthsIntakeKey, _monthsIntake);
+  addDailyTreatmentsToMonth() {
+    _monthlyTreatments += _dailyTreatments;
+    _box.put(monthlyTreatmentsKey, _monthlyTreatments);
     notifyListeners();
   }
 
-  clearMonthlyIntake() {
-    _monthsIntake = 0;
-    _box.put(monthsIntakeKey, _monthsIntake);
+  clearMonthlyTreatments() {
+    _monthlyTreatments = 0;
+    _box.put(monthlyTreatmentsKey, _monthlyTreatments);
     notifyListeners();
   }
 
-  updateMonthlyIntake(int updatedIntake) {
-    _monthsIntake = updatedIntake;
-    _box.put(monthsIntakeKey, _monthsIntake);
+  updateMonthlyTreatments(int updatedTreatments) {
+    _monthlyTreatments = updatedTreatments;
+    _box.put(monthlyTreatmentsKey, _monthlyTreatments);
+    notifyListeners();
+  }
+
+  updateDailySales(String dailySales) {
+    try {
+      if (dailySales == null || dailySales.isEmpty) {
+        _dailySales = 0;
+      } else {
+        final inputInt = int.parse(dailySales);
+        _dailySales = inputInt;
+      }
+      _dailySalesValidationError = false;
+      _box.put(dailySalesKey, _dailySales);
+    } on Exception catch (e) {
+      print('Error: $e');
+      _dailySalesValidationError = true;
+    }
+    notifyListeners();
+  }
+
+  addDailySalesToMonth() {
+    _monthlySales += _dailySales;
+    _box.put(monthlySalesKey, _monthlySales);
+    notifyListeners();
+  }
+
+  clearMonthlySales() {
+    _monthlySales = 0;
+    _box.put(monthlySalesKey, _monthlySales);
+    notifyListeners();
+  }
+
+  updateMonthlySales(int updatedSales) {
+    _monthlySales = updatedSales;
+    _box.put(monthlySalesKey, _monthlySales);
     notifyListeners();
   }
 

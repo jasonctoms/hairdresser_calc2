@@ -59,26 +59,21 @@ class _IntakeWidgetState extends State<IntakeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final intakeField = Expanded(
-      child: Padding(
-        padding: EdgeInsets.only(right: 8.0),
-        child: TextField(
-          key: _intakeFieldKey,
-          controller: _intakeController,
-          focusNode: _intakeFocus,
-          style: Theme.of(context).textTheme.bodyText1,
-          decoration: InputDecoration(
-            labelStyle: Theme.of(context).textTheme.bodyText1,
-            errorText: widget.validationError ? Translations.of(context).validationMessage : null,
-            labelText: widget.todayLabel,
-            border: const OutlineInputBorder(),
-          ),
-          keyboardType: TextInputType.number,
-          onChanged: (text) {
-            widget.onUpdate(text);
-          },
-        ),
+    final intakeField = TextField(
+      key: _intakeFieldKey,
+      controller: _intakeController,
+      focusNode: _intakeFocus,
+      style: Theme.of(context).textTheme.bodyText1,
+      decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.bodyText1,
+        errorText: widget.validationError ? Translations.of(context).validationMessage : null,
+        labelText: widget.todayLabel,
+        border: const OutlineInputBorder(),
       ),
+      keyboardType: TextInputType.number,
+      onChanged: (text) {
+        widget.onUpdate(text);
+      },
     );
 
     final monthsIntake = GestureDetector(
@@ -94,25 +89,42 @@ class _IntakeWidgetState extends State<IntakeWidget> {
       ),
     );
 
-    return Row(
-      children: [
-        intakeField,
-        IconButton(
-          icon: Icon(
-            Icons.arrow_forward,
-            color: Colors.teal[400],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 3,
+            child: intakeField,
           ),
-          onPressed: () => widget.onStore(),
-        ),
-        monthsIntake,
-        IconButton(
-          icon: Icon(
-            Icons.clear,
-            color: Colors.red,
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_forward,
+                color: Colors.teal[400],
+              ),
+              onPressed: () => widget.onStore(),
+            ),
           ),
-          onPressed: () => widget.onClear(),
-        ),
-      ],
+          Expanded(
+            flex: 3,
+            child: monthsIntake,
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: Colors.red,
+              ),
+              onPressed: () => widget.onClear(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

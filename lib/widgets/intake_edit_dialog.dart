@@ -6,11 +6,13 @@ import 'package:meta/meta.dart';
 class IntakeEditDialog extends StatefulWidget {
   final int initialIntake;
   final String dialogTitle;
+  final String textFieldTitle;
   final Function(int updatedIntake) onSave;
 
   const IntakeEditDialog({
     @required this.initialIntake,
     @required this.dialogTitle,
+    @required this.textFieldTitle,
     @required this.onSave,
   }) : assert(initialIntake != null);
 
@@ -66,7 +68,7 @@ class _IntakeEditDialogState extends State<IntakeEditDialog> {
       decoration: InputDecoration(
         labelStyle: Theme.of(context).textTheme.bodyText1,
         errorText: _showValidationError ? Translations.of(context).validationMessage : null,
-        labelText: Translations.of(context).updatedIntake,
+        labelText: widget.textFieldTitle,
         border: const OutlineInputBorder(),
       ),
       keyboardType: TextInputType.number,

@@ -39,25 +39,45 @@
     "type": "text",
     "description": "Validation message for text fields"
   },
-  "todaysIntake": "Today's Intake",
-  "@todaysIntake": {
+  "dailyTreatments": "Daily treatments",
+  "@dailyTreatments": {
     "type": "text",
-    "description": "Intake title and text field hint"
+    "description": "Daily treatments text field hint"
   },
-  "monthsIntake": "Month's Intake:",
-  "@monthsIntake": {
+  "monthlyTreatments": "Monthly treatments:",
+  "@monthlyTreatments": {
     "type": "text",
     "description": "Month's intake title"
   },
-  "currentMonthsIntake": "Current Month's Intake:",
-  "@currentMonthsIntake": {
+  "currentMonthlyTreatments": "Current monthly treatments:",
+  "@currentMonthlyTreatments": {
     "type": "text",
-    "description": "Month's intake edit dialog title"
+    "description": "Monthly treatment edit dialog title"
   },
-  "updatedIntake": "Updated intake",
-  "@updatedIntake": {
+  "updatedMonthlyTreatments": "Updated monthly treatments",
+  "@updatedMonthlyTreatments": {
     "type": "text",
-    "description": "Updated intake text field label"
+    "description": "Updated monthly treatment text field label"
+  },
+  "dailySales": "Daily sales",
+  "@dailySales": {
+    "type": "text",
+    "description": "Daily sales text field hint"
+  },
+  "monthlySales": "Monthly sales:",
+  "@monthlySales": {
+    "type": "text",
+    "description": "Monthly sales title"
+  },
+  "currentMonthlySales": "Current monthly sales:",
+  "@currentMonthlySales": {
+    "type": "text",
+    "description": "Monthly sales edit dialog title"
+  },
+  "updatedMonthlySales": "Updated monthly sales",
+  "@updatedMonthlySales": {
+    "type": "text",
+    "description": "Updated monthly sales text field label"
   },
   "daysLeft": "Work Days Left:",
   "@daysLeft": {

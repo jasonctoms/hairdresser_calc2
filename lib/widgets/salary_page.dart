@@ -19,28 +19,21 @@ class SalaryPage extends StatefulWidget {
 class _SalaryPageState extends State<SalaryPage> {
   int remainingIntake() {
     var goalGross = context.watch<SalaryProvider>().goalGross;
-    var monthsIntake = context.watch<SalaryProvider>().monthsIntake;
-    if (goalGross == null || monthsIntake == null)
-      return 0;
-    else
-      return goalGross - monthsIntake;
+    var monthlyTreatments = context.watch<SalaryProvider>().monthlyTreatments;
+    var monthlySales = context.watch<SalaryProvider>().monthlySales;
+    return goalGross - (monthlyTreatments + monthlySales);
   }
 
   int amountNeededPerDay() {
     var daysLeft = context.watch<SalaryProvider>().daysLeft;
-    if (daysLeft == null)
-      return 0;
-    else
-      return (remainingIntake() / daysLeft).round();
+    return (remainingIntake() / daysLeft).round();
   }
 
   int salaryWithCurrentIntake() {
     var commissionValue = context.watch<SalaryProvider>().commissionValue;
-    var monthsIntake = context.watch<SalaryProvider>().monthsIntake;
-    if (monthsIntake == null || commissionValue == null)
-      return 0;
-    else
-      return (monthsIntake * 0.8 * commissionValue).round();
+    var monthlyTreatments = context.watch<SalaryProvider>().monthlyTreatments;
+    var monthlySales = context.watch<SalaryProvider>().monthlySales;
+    return ((monthlyTreatments * 0.8 * commissionValue) + (monthlySales * 0.8)).round();
   }
 
   @override
@@ -165,27 +158,52 @@ class _SalaryPageState extends State<SalaryPage> {
               GoalWidget(),
               Padding(padding: EdgeInsets.only(bottom: 8)),
               IntakeWidget(
-                onUpdate: (text) => context.read<SalaryProvider>().updateTodaysIntake(text),
-                onStore: () => context.read<SalaryProvider>().addTodaysIntakeToMonth(),
-                onClear: () => context.read<SalaryProvider>().clearMonthlyIntake(),
+                onUpdate: (text) => context.read<SalaryProvider>().updateDailyTreatments(text),
+                onStore: () => context.read<SalaryProvider>().addDailyTreatmentsToMonth(),
+                onClear: () => context.read<SalaryProvider>().clearMonthlyTreatments(),
                 onEdit: () {
                   showDialog<String>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return IntakeEditDialog(
-                          initialIntake: context.watch<SalaryProvider>().monthsIntake,
-                          dialogTitle: Translations.of(context).currentMonthsIntake,
+                          initialIntake: context.watch<SalaryProvider>().monthlyTreatments,
+                          dialogTitle: Translations.of(context).currentMonthlyTreatments,
+                          textFieldTitle: Translations.of(context).updatedMonthlyTreatments,
                           onSave: (updatedValue) =>
-                              context.read<SalaryProvider>().updateMonthlyIntake(updatedValue),
+                              context.read<SalaryProvider>().updateMonthlyTreatments(updatedValue),
                         );
                       });
                 },
-                monthlyValue: context.watch<SalaryProvider>().monthsIntake.toKroner(),
-                validationError: context.watch<SalaryProvider>().todaysIntakeValidationError,
-                initialValue: context.watch<SalaryProvider>().todaysIntake,
-                todayLabel: Translations.of(context).todaysIntake,
-                monthlyLabel: Translations.of(context).monthsIntake,
+                monthlyValue: context.watch<SalaryProvider>().monthlyTreatments.toKroner(),
+                validationError: context.watch<SalaryProvider>().dailyTreatmentsValidationError,
+                initialValue: context.watch<SalaryProvider>().dailyTreatments,
+                todayLabel: Translations.of(context).dailyTreatments,
+                monthlyLabel: Translations.of(context).monthlyTreatments,
+              ),
+              IntakeWidget(
+                onUpdate: (text) => context.read<SalaryProvider>().updateDailySales(text),
+                onStore: () => context.read<SalaryProvider>().addDailySalesToMonth(),
+                onClear: () => context.read<SalaryProvider>().clearMonthlySales(),
+                onEdit: () {
+                  showDialog<String>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return IntakeEditDialog(
+                          initialIntake: context.watch<SalaryProvider>().monthlySales,
+                          dialogTitle: Translations.of(context).currentMonthlySales,
+                          textFieldTitle: Translations.of(context).updatedMonthlySales,
+                          onSave: (updatedValue) =>
+                              context.read<SalaryProvider>().updateMonthlySales(updatedValue),
+                        );
+                      });
+                },
+                monthlyValue: context.watch<SalaryProvider>().monthlySales.toKroner(),
+                validationError: context.watch<SalaryProvider>().dailySalesValidationError,
+                initialValue: context.watch<SalaryProvider>().dailySales,
+                todayLabel: Translations.of(context).dailySales,
+                monthlyLabel: Translations.of(context).monthlySales,
               ),
               currentSalary,
               importantNumbers,

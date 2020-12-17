@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
+import 'package:hairdresser_calc2/extensions/int_extensions.dart';
 import 'package:hairdresser_calc2/providers/salary_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -82,6 +83,42 @@ class _GoalWidgetState extends State<GoalWidget> {
       );
     }
 
+    final goalInfo = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              Text(Translations.of(context).goalGrossResult),
+              Text(
+                "${context.watch<SalaryProvider>().goalGross.toKroner()}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Text(Translations.of(context).goalNetResult),
+              Text(
+                "${context.watch<SalaryProvider>().goalNet.toKroner()}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Text(Translations.of(context).goalSalaryResult),
+              Text(
+                "${context.watch<SalaryProvider>().goalSalary.toKroner()}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
     return Column(children: [
       Row(
         children: [
@@ -108,6 +145,7 @@ class _GoalWidgetState extends State<GoalWidget> {
           context.read<SalaryProvider>().updateGoal(_goalSelection, text);
         },
       ),
+      goalInfo,
     ]);
   }
 }

@@ -85,42 +85,6 @@ class _SalaryPageState extends State<SalaryPage> {
       ],
     );
 
-    final goalInfo = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column(
-            children: [
-              Text(Translations.of(context).goalGrossResult),
-              Text(
-                "${context.watch<SalaryProvider>().goalGross.toKroner()}",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Text(Translations.of(context).goalNetResult),
-              Text(
-                "${context.watch<SalaryProvider>().goalNet.toKroner()}",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Text(Translations.of(context).goalSalaryResult),
-              Text(
-                "${context.watch<SalaryProvider>().goalSalary.toKroner()}",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-
     final currentSalary = Padding(
       padding: EdgeInsets.only(top: 8.0),
       child: Row(
@@ -198,6 +162,7 @@ class _SalaryPageState extends State<SalaryPage> {
           child: Column(
             children: [
               topRow,
+              GoalWidget(),
               Padding(padding: EdgeInsets.only(bottom: 8)),
               IntakeWidget(
                 onUpdate: (text) => context.read<SalaryProvider>().updateTodaysIntake(text),
@@ -222,8 +187,6 @@ class _SalaryPageState extends State<SalaryPage> {
                 todayLabel: Translations.of(context).todaysIntake,
                 monthlyLabel: Translations.of(context).monthsIntake,
               ),
-              GoalWidget(),
-              goalInfo,
               currentSalary,
               importantNumbers,
             ],

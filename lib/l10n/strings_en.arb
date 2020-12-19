@@ -14,11 +14,6 @@
     "type": "text",
     "description": "Done"
   },
-  "clear": "CLEAR",
-  "@clear": {
-    "type": "text",
-    "description": "Clear button"
-  },
   "reset": "Reset Month",
   "@reset": {
     "type": "text",
@@ -48,6 +43,11 @@
   "@commissionPercent": {
     "type": "text",
     "description": "Commission"
+  },
+  "clients": "Clients:",
+  "@clients": {
+    "type": "text",
+    "description": "Clients"
   },
   "validationMessage": "Invalid number entered",
   "@validationMessage": {
@@ -144,10 +144,15 @@
     "type": "text",
     "description": "Goal salary title"
   },
-  "salaryWithCurrentIntake": "Salary with current intake:",
+  "salaryWithCurrentIntake": "Salary with current intake: ",
   "@salaryWithCurrentIntake": {
     "type": "text",
     "description": "Salary with current intake"
+  },
+  "treatmentsPerClient": "Treatments per client: ",
+  "@treatmentsPerClient": {
+    "type": "text",
+    "description": "Treatment value per client"
   },
   "intakeNeededToReachGoal": "Intake needed to reach goal:",
   "@intakeNeededToReachGoal": {

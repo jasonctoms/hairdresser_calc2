@@ -44,6 +44,8 @@ class _GoalWidgetState extends State<GoalWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool _fixedSalary = context.watch<SalaryProvider>().fixedSalary;
+
     String _pickGoalLabel() {
       if (_goalSelection == GoalSelection.GROSS) {
         return Translations.of(context).goalGross;
@@ -55,8 +57,7 @@ class _GoalWidgetState extends State<GoalWidget> {
     }
 
     Widget goalRadio(String title, GoalSelection goalType) {
-      return Expanded(
-        flex: 1,
+      return Flexible(
         child: Row(
           children: [
             Radio<GoalSelection>(
@@ -106,15 +107,16 @@ class _GoalWidgetState extends State<GoalWidget> {
               ),
             ],
           ),
-          Column(
-            children: [
-              Text(Translations.of(context).goalSalaryResult),
-              Text(
-                "${context.watch<SalaryProvider>().goalSalary.toKroner()}",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+          if (!_fixedSalary)
+            Column(
+              children: [
+                Text(Translations.of(context).goalSalaryResult),
+                Text(
+                  "${context.watch<SalaryProvider>().goalSalary.toKroner()}",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
         ],
       ),
     );
@@ -124,7 +126,7 @@ class _GoalWidgetState extends State<GoalWidget> {
         children: [
           goalRadio(Translations.of(context).gross, GoalSelection.GROSS),
           goalRadio(Translations.of(context).net, GoalSelection.NET),
-          goalRadio(Translations.of(context).salary, GoalSelection.SALARY),
+          if (!_fixedSalary) goalRadio(Translations.of(context).salary, GoalSelection.SALARY),
         ],
       ),
       TextField(

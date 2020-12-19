@@ -10,6 +10,7 @@ const monthlyTreatmentsKey = 'monthlyTreatmentsKey';
 const dailySalesKey = 'dailySalesKey';
 const monthlySalesKey = 'monthlySalesKey';
 const daysLeftKey = 'daysLeftKey';
+const monthlyClientsKey = 'monthlyClientsKey';
 const goalGrossKey = 'goalGrossKey';
 const goalNetKey = 'goalNetKey';
 const goalSalaryKey = 'goalSalaryKey';
@@ -24,6 +25,7 @@ class SalaryProvider with ChangeNotifier {
   int _dailySales;
   int _monthlySales;
   int _daysLeft;
+  int _monthlyClients;
   int _goalGross;
   int _goalNet;
   int _goalSalary;
@@ -45,6 +47,8 @@ class SalaryProvider with ChangeNotifier {
   int get monthlySales => _monthlySales;
 
   int get daysLeft => _daysLeft;
+
+  int get monthlyClients => _monthlyClients;
 
   int get goalGross => _goalGross;
 
@@ -69,6 +73,7 @@ class SalaryProvider with ChangeNotifier {
     _dailySales = _box.get(dailySalesKey, defaultValue: 0);
     _monthlySales = _box.get(monthlySalesKey, defaultValue: 0);
     _daysLeft = _box.get(daysLeftKey, defaultValue: 20);
+    _monthlyClients = _box.get(monthlyClientsKey, defaultValue: 0);
     _goalGross = _box.get(goalGrossKey, defaultValue: 125000);
     _goalNet = _box.get(goalNetKey, defaultValue: 100000);
     _goalSalary = _box.get(goalSalaryKey, defaultValue: 40000);
@@ -78,9 +83,11 @@ class SalaryProvider with ChangeNotifier {
     _monthlyTreatments = 0;
     _monthlySales = 0;
     _daysLeft = 20;
+    _monthlyClients = 0;
     _box.put(monthlyTreatmentsKey, _monthlyTreatments);
     _box.put(monthlySalesKey, _monthlySales);
     _box.put(daysLeftKey, _daysLeft);
+    _box.put(monthlyClientsKey, _monthlyClients);
     notifyListeners();
   }
 
@@ -113,6 +120,22 @@ class SalaryProvider with ChangeNotifier {
       _daysLeft -= 1;
     }
     _box.put(daysLeftKey, _daysLeft);
+    notifyListeners();
+  }
+
+  addClient() {
+    _monthlyClients += 1;
+    _box.put(monthlyClientsKey, _monthlyClients);
+    notifyListeners();
+  }
+
+  subtractClient() {
+    if (_monthlyClients >= 0) {
+      _monthlyClients -= 1;
+    } else {
+      _monthlyClients = 0;
+    }
+    _box.put(monthlyClientsKey, _monthlyClients);
     notifyListeners();
   }
 

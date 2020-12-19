@@ -24,7 +24,7 @@
     "type": "text",
     "description": "Commission"
   },
-  "fixedSalary": "Fixed Salary",
+  "fixedSalary": "Fixed salary",
   "@fixedSalary": {
     "type": "text",
     "description": "Fixed salary switch label"
@@ -99,17 +99,17 @@
     "type": "text",
     "description": "How many work days left in the pay period"
   },
-  "goalGross": "Goal Gross",
+  "goalGross": "Goal gross",
   "@goalGross": {
     "type": "text",
     "description": "Goal gross text field hint"
   },
-  "goalNet": "Goal Net",
+  "goalNet": "Goal net",
   "@goalNet": {
     "type": "text",
     "description": "Goal net text field hint"
   },
-  "goalSalary": "Goal Salary",
+  "goalSalary": "Goal salary",
   "@goalSalary": {
     "type": "text",
     "description": "Goal salary text field hint"

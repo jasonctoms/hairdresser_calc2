@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
-import 'package:hairdresser_calc2/extensions/int_extensions.dart';
-import 'package:hairdresser_calc2/providers/salary_provider.dart';
-import 'package:hairdresser_calc2/widgets/app_bar_menu.dart';
-import 'package:hairdresser_calc2/widgets/goal_widget.dart';
-import 'package:hairdresser_calc2/widgets/incdec_widget.dart';
-import 'package:hairdresser_calc2/widgets/intake_edit_dialog.dart';
-import 'package:hairdresser_calc2/widgets/intake_widget.dart';
+import 'package:hairdresser_calc/extensions/int_extensions.dart';
+import 'package:hairdresser_calc/providers/salary_provider.dart';
+import 'package:hairdresser_calc/widgets/app_bar_menu.dart';
+import 'package:hairdresser_calc/widgets/goal_widget.dart';
+import 'package:hairdresser_calc/widgets/incdec_widget.dart';
+import 'package:hairdresser_calc/widgets/intake_edit_dialog.dart';
+import 'package:hairdresser_calc/widgets/intake_widget.dart';
 import 'package:provider/provider.dart';
 
 class SalaryPage extends StatefulWidget {

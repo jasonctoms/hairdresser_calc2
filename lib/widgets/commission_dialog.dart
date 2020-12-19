@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
-import 'package:hairdresser_calc2/providers/salary_provider.dart';
+import 'package:hairdresser_calc/providers/salary_provider.dart';
 import 'package:provider/provider.dart';
 
 class CommissionDialog extends StatefulWidget {

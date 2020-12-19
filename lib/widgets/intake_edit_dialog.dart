@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
-import 'package:hairdresser_calc2/extensions/int_extensions.dart';
+import 'package:hairdresser_calc/extensions/int_extensions.dart';
 import 'package:meta/meta.dart';
 
 class IntakeEditDialog extends StatefulWidget {

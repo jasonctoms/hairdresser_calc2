@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
-import 'package:hairdresser_calc2/providers/salary_provider.dart';
-import 'package:hairdresser_calc2/widgets/salary_page.dart';
+import 'package:hairdresser_calc/providers/salary_provider.dart';
+import 'package:hairdresser_calc/widgets/salary_page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';

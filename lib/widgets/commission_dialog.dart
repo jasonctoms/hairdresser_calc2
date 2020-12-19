@@ -14,6 +14,7 @@ class _CommissionDialogState extends State<CommissionDialog> {
   bool _showValidationError = false;
   bool _fixedSalary;
   final _inputKey = GlobalKey(debugLabel: 'commissionText');
+  final _inputController = TextEditingController();
 
   void updateCommission(String input) {
     setState(() {
@@ -40,10 +41,21 @@ class _CommissionDialogState extends State<CommissionDialog> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
     if (_fixedSalary == null) {
-      _fixedSalary = context.watch<SalaryProvider>().fixedSalary;
+      _fixedSalary = context.read<SalaryProvider>().fixedSalary;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentCommission = Padding(
       padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
       child: Row(
@@ -82,18 +94,21 @@ class _CommissionDialogState extends State<CommissionDialog> {
     final commissionInput = TextField(
       key: _inputKey,
       enabled: !_fixedSalary,
+      controller: _inputController,
       style: Theme.of(context).textTheme.bodyText1,
       decoration: InputDecoration(
         labelStyle: Theme.of(context).textTheme.bodyText1,
         errorText: _showValidationError ? Translations.of(context).validationMessage : null,
-        labelText: _fixedSalary
-            ? Translations.of(context).notApplicable
-            : Translations.of(context).commissionPercent,
+        labelText: Translations.of(context).commissionPercent,
         border: const OutlineInputBorder(),
       ),
       keyboardType: TextInputType.number,
       onChanged: updateCommission,
     );
+
+    _inputController.text = _fixedSalary
+        ? Translations.of(context).notApplicable
+        : (context.watch<SalaryProvider>().commissionValue * 100).round().toString();
 
     return AlertDialog(
       content: Column(

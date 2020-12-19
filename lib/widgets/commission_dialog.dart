@@ -51,11 +51,26 @@ class _CommissionDialogState extends State<CommissionDialog> {
     super.initState();
     if (_fixedSalary == null) {
       _fixedSalary = context.read<SalaryProvider>().fixedSalary;
+      if (!_fixedSalary) {
+        useStoredCommission(context);
+      }
     }
+  }
+
+  useStoredCommission(BuildContext context) {
+    var storedCommission = context.read<SalaryProvider>().commissionValue;
+    var storedCommissionString = (storedCommission * 100).round().toString();
+    _commissionValue = storedCommission;
+    _inputController.text = storedCommissionString;
+    _commissionText = storedCommissionString;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_fixedSalary) {
+      _inputController.text = Translations.of(context).notApplicable;
+    }
+
     final currentCommission = Padding(
       padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
       child: Row(
@@ -84,6 +99,9 @@ class _CommissionDialogState extends State<CommissionDialog> {
             value: _fixedSalary,
             onChanged: (bool newValue) {
               setState(() {
+                if (!newValue) {
+                  useStoredCommission(context);
+                }
                 _fixedSalary = newValue;
               });
             },
@@ -106,10 +124,6 @@ class _CommissionDialogState extends State<CommissionDialog> {
       keyboardType: TextInputType.number,
       onChanged: updateCommission,
     );
-
-    _inputController.text = _fixedSalary
-        ? Translations.of(context).notApplicable
-        : (context.watch<SalaryProvider>().commissionValue * 100).round().toString();
 
     return AlertDialog(
       content: Column(

@@ -19,10 +19,25 @@
     "type": "text",
     "description": "Clear button"
   },
-  "commission": "Commission:",
+  "reset": "Reset Month",
+  "@reset": {
+    "type": "text",
+    "description": "Reset month option menu title"
+  },
+  "commission": "Commission: ",
   "@commission": {
     "type": "text",
     "description": "Commission"
+  },
+  "fixedSalary": "Fixed Salary",
+  "@fixedSalary": {
+    "type": "text",
+    "description": "Fixed salary switch label"
+  },
+  "notApplicable": "N/A",
+  "@notApplicable": {
+    "type": "text",
+    "description": "Label for commission when fixed salary is enabled"
   },
   "currentCommission": "Current commission:",
   "@currentCommission": {

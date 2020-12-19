@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
 import 'package:hairdresser_calc2/providers/salary_provider.dart';
-import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 
 class CommissionDialog extends StatefulWidget {
-  final String commission;
-
-  const CommissionDialog({
-    @required this.commission,
-  }) : assert(commission != null);
-
   @override
   _CommissionDialogState createState() => _CommissionDialogState();
 }
@@ -19,6 +12,7 @@ class _CommissionDialogState extends State<CommissionDialog> {
   double _commissionValue;
   String _commissionText;
   bool _showValidationError = false;
+  bool _fixedSalary;
   final _inputKey = GlobalKey(debugLabel: 'commissionText');
 
   void updateCommission(String input) {
@@ -41,33 +35,60 @@ class _CommissionDialogState extends State<CommissionDialog> {
 
   saveCommission(BuildContext context) {
     Navigator.pop(context, _commissionText);
-    context.read<SalaryProvider>().setCommission(_commissionValue);
+    double updatedValue = _fixedSalary ? null : _commissionValue;
+    context.read<SalaryProvider>().setCommission(updatedValue);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_fixedSalary == null) {
+      _fixedSalary = context.watch<SalaryProvider>().fixedSalary;
+    }
     final currentCommission = Padding(
-      padding: EdgeInsets.only(bottom: 32.0, top: 16.0),
+      padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(Translations.of(context).currentCommission),
           Padding(padding: EdgeInsets.symmetric(horizontal: 2.0)),
           Text(
-            widget.commission,
+            _fixedSalary
+                ? Translations.of(context).notApplicable
+                : "${context.watch<SalaryProvider>().commissionValue * 100}%",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
 
+    final fixedSalarySwitch = Padding(
+      padding: EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(Translations.of(context).fixedSalary),
+          Switch(
+            value: _fixedSalary,
+            onChanged: (bool newValue) {
+              setState(() {
+                _fixedSalary = newValue;
+              });
+            },
+          )
+        ],
+      ),
+    );
+
     final commissionInput = TextField(
       key: _inputKey,
+      enabled: !_fixedSalary,
       style: Theme.of(context).textTheme.bodyText1,
       decoration: InputDecoration(
         labelStyle: Theme.of(context).textTheme.bodyText1,
         errorText: _showValidationError ? Translations.of(context).validationMessage : null,
-        labelText: Translations.of(context).commissionPercent,
+        labelText: _fixedSalary
+            ? Translations.of(context).notApplicable
+            : Translations.of(context).commissionPercent,
         border: const OutlineInputBorder(),
       ),
       keyboardType: TextInputType.number,
@@ -77,7 +98,11 @@ class _CommissionDialogState extends State<CommissionDialog> {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [currentCommission, commissionInput],
+        children: [
+          currentCommission,
+          fixedSalarySwitch,
+          commissionInput,
+        ],
       ),
       actions: [
         TextButton(
@@ -86,7 +111,9 @@ class _CommissionDialogState extends State<CommissionDialog> {
         ),
         TextButton(
           child: Text(Translations.of(context).done),
-          onPressed: (_showValidationError || _commissionText == null) ? null : () => saveCommission(context),
+          onPressed: (_showValidationError || (_commissionText == null && !_fixedSalary))
+              ? null
+              : () => saveCommission(context),
         ),
       ],
     );

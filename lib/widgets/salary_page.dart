@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/translations.dart';
 import 'package:hairdresser_calc2/extensions/int_extensions.dart';
 import 'package:hairdresser_calc2/providers/salary_provider.dart';
+import 'package:hairdresser_calc2/widgets/app_bar_menu.dart';
 import 'package:hairdresser_calc2/widgets/commission_dialog.dart';
 import 'package:hairdresser_calc2/widgets/goal_widget.dart';
 import 'package:hairdresser_calc2/widgets/incdec_widget.dart';
@@ -38,6 +39,8 @@ class _SalaryPageState extends State<SalaryPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool _fixedSalary = context.watch<SalaryProvider>().fixedSalary;
+
     final daysLeft = IncDecWidget(
       titleOnTop: true,
       title: Translations.of(context).daysLeft,
@@ -56,12 +59,13 @@ class _SalaryPageState extends State<SalaryPage> {
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return CommissionDialog(
-                      commission: "${context.watch<SalaryProvider>().commissionValue * 100}%");
+                  return CommissionDialog();
                 });
           },
           child: Text(
-            "${context.watch<SalaryProvider>().commissionValue * 100}%",
+            _fixedSalary
+                ? Translations.of(context).notApplicable
+                : "${context.watch<SalaryProvider>().commissionValue * 100}%",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: Theme.of(context).textTheme.headline6.fontSize),
@@ -148,6 +152,9 @@ class _SalaryPageState extends State<SalaryPage> {
     return new Scaffold(
       appBar: AppBar(
         title: Text(Translations.of(context).appName),
+        actions: [
+          AppBarMenu(),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -160,7 +167,6 @@ class _SalaryPageState extends State<SalaryPage> {
               IntakeWidget(
                 onUpdate: (text) => context.read<SalaryProvider>().updateDailyTreatments(text),
                 onStore: () => context.read<SalaryProvider>().addDailyTreatmentsToMonth(),
-                onClear: () => context.read<SalaryProvider>().clearMonthlyTreatments(),
                 onEdit: () {
                   showDialog<String>(
                       context: context,
@@ -184,7 +190,6 @@ class _SalaryPageState extends State<SalaryPage> {
               IntakeWidget(
                 onUpdate: (text) => context.read<SalaryProvider>().updateDailySales(text),
                 onStore: () => context.read<SalaryProvider>().addDailySalesToMonth(),
-                onClear: () => context.read<SalaryProvider>().clearMonthlySales(),
                 onEdit: () {
                   showDialog<String>(
                       context: context,

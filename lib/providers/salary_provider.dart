@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 
 const salaryBox = "salaryBoxKey";
 const commissionKey = 'commissionKey';
+const fixedSalaryKey = 'fixedSalaryKey';
 const dailyTreatmentsKey = 'dailyTreatmentsKey';
 const monthlyTreatmentsKey = 'monthlyTreatmentsKey';
 const dailySalesKey = 'dailySalesKey';
@@ -17,6 +18,7 @@ class SalaryProvider with ChangeNotifier {
   Box _box;
 
   double _commissionValue;
+  bool _fixedSalary;
   int _dailyTreatments;
   int _monthlyTreatments;
   int _dailySales;
@@ -32,12 +34,14 @@ class SalaryProvider with ChangeNotifier {
 
   double get commissionValue => _commissionValue;
 
+  bool get fixedSalary => _fixedSalary;
+
   int get dailyTreatments => _dailyTreatments;
 
   int get monthlyTreatments => _monthlyTreatments;
-  
+
   int get dailySales => _dailySales;
-  
+
   int get monthlySales => _monthlySales;
 
   int get daysLeft => _daysLeft;
@@ -51,7 +55,7 @@ class SalaryProvider with ChangeNotifier {
   bool get goalValidationError => _goalValidationError;
 
   bool get dailyTreatmentsValidationError => _dailyTreatmentsValidationError;
-  
+
   bool get dailySalesValidationError => _dailySalesValidationError;
 
   SalaryProvider() {
@@ -59,6 +63,7 @@ class SalaryProvider with ChangeNotifier {
 
     // initialize values
     _commissionValue = _box.get(commissionKey, defaultValue: 0.4);
+    _fixedSalary = _box.get(fixedSalaryKey, defaultValue: false);
     _dailyTreatments = _box.get(dailyTreatmentsKey, defaultValue: 0);
     _monthlyTreatments = _box.get(monthlyTreatmentsKey, defaultValue: 0);
     _dailySales = _box.get(dailySalesKey, defaultValue: 0);
@@ -69,9 +74,25 @@ class SalaryProvider with ChangeNotifier {
     _goalSalary = _box.get(goalSalaryKey, defaultValue: 40000);
   }
 
+  resetMonth() {
+    _monthlyTreatments = 0;
+    _monthlySales = 0;
+    _daysLeft = 20;
+    _box.put(monthlyTreatmentsKey, _monthlyTreatments);
+    _box.put(monthlySalesKey, _monthlySales);
+    _box.put(daysLeftKey, _daysLeft);
+    notifyListeners();
+  }
+
   setCommission(double newCommission) {
-    _commissionValue = newCommission;
-    _box.put(commissionKey, _commissionValue);
+    if (newCommission == null) {
+      _fixedSalary = true;
+    } else {
+      _fixedSalary = false;
+      _commissionValue = newCommission;
+      _box.put(commissionKey, _commissionValue);
+    }
+    _box.put(fixedSalaryKey, _fixedSalary);
     notifyListeners();
   }
 
@@ -118,12 +139,6 @@ class SalaryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  clearMonthlyTreatments() {
-    _monthlyTreatments = 0;
-    _box.put(monthlyTreatmentsKey, _monthlyTreatments);
-    notifyListeners();
-  }
-
   updateMonthlyTreatments(int updatedTreatments) {
     _monthlyTreatments = updatedTreatments;
     _box.put(monthlyTreatmentsKey, _monthlyTreatments);
@@ -149,12 +164,6 @@ class SalaryProvider with ChangeNotifier {
 
   addDailySalesToMonth() {
     _monthlySales += _dailySales;
-    _box.put(monthlySalesKey, _monthlySales);
-    notifyListeners();
-  }
-
-  clearMonthlySales() {
-    _monthlySales = 0;
     _box.put(monthlySalesKey, _monthlySales);
     notifyListeners();
   }

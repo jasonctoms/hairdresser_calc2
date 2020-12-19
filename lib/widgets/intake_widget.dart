@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/translations.dart';
 class IntakeWidget extends StatefulWidget {
   final Function(String input) onUpdate;
   final Function() onStore;
-  final Function() onClear;
   final Function() onEdit;
   final String monthlyValue;
   final bool validationError;
@@ -16,7 +15,6 @@ class IntakeWidget extends StatefulWidget {
     Key key,
     @required this.onUpdate,
     @required this.onStore,
-    @required this.onClear,
     @required this.onEdit,
     @required this.monthlyValue,
     @required this.validationError,
@@ -112,16 +110,6 @@ class _IntakeWidgetState extends State<IntakeWidget> {
           Expanded(
             flex: 3,
             child: monthsIntake,
-          ),
-          Expanded(
-            flex: 1,
-            child: IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: Colors.red,
-              ),
-              onPressed: () => widget.onClear(),
-            ),
           ),
         ],
       ),

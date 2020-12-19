@@ -23,7 +23,7 @@ class IncDecWidget extends StatelessWidget {
     final subtract = IconButton(
       icon: Icon(
         Icons.remove,
-        color: Colors.teal[400],
+        color: Theme.of(context).accentColor,
       ),
       onPressed: decrementFunction,
     );
@@ -38,7 +38,7 @@ class IncDecWidget extends StatelessWidget {
     final add = IconButton(
       icon: Icon(
         Icons.add,
-        color: Colors.teal[400],
+        color: Theme.of(context).accentColor,
       ),
       onPressed: incrementFunction,
     );

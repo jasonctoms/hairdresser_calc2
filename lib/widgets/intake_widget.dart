@@ -102,7 +102,7 @@ class _IntakeWidgetState extends State<IntakeWidget> {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_forward,
-                color: Colors.teal[400],
+                color: Theme.of(context).accentColor,
               ),
               onPressed: () => widget.onStore(),
             ),

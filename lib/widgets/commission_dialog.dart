@@ -80,6 +80,7 @@ class _CommissionDialogState extends State<CommissionDialog> {
         children: [
           Text(Translations.of(context).fixedSalary),
           Switch(
+            activeColor: Theme.of(context).accentColor,
             value: _fixedSalary,
             onChanged: (bool newValue) {
               setState(() {

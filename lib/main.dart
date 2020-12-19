@@ -25,21 +25,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.blue,
-            accentColor: Colors.blueGrey,
-          ),
+          primaryColor: Colors.blue[900],
+          accentColor: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           brightness: Brightness.light),
       darkTheme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.dark,
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue[900],
+        accentColor: Colors.blue,
       ),
       home: SalaryPage(),
     );
   }
 }
-
-

@@ -55,7 +55,7 @@ class _SalaryPageState extends State<SalaryPage> {
             context.watch<SalaryProvider>().salaryWithCurrentIntake.toKroner(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.teal[300],
+              color: Theme.of(context).accentColor,
             ),
           ),
         ],
@@ -72,7 +72,7 @@ class _SalaryPageState extends State<SalaryPage> {
             context.watch<SalaryProvider>().treatmentValuePerClient.toKroner(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.teal[300],
+              color: Theme.of(context).accentColor,
             ),
           ),
         ],
@@ -110,7 +110,10 @@ class _SalaryPageState extends State<SalaryPage> {
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.teal[300], fontSize: 30.0),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).accentColor,
+                    fontSize: Theme.of(context).textTheme.headline4.fontSize,
+                  ),
                 ),
               ),
               Expanded(
@@ -120,7 +123,10 @@ class _SalaryPageState extends State<SalaryPage> {
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.teal[300], fontSize: 30.0),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).accentColor,
+                    fontSize: Theme.of(context).textTheme.headline4.fontSize,
+                  ),
                 ),
               ),
             ],

@@ -63,6 +63,7 @@ class _GoalWidgetState extends State<GoalWidget> {
             Radio<GoalSelection>(
               value: goalType,
               groupValue: _goalSelection,
+              activeColor: Theme.of(context).accentColor,
               onChanged: (GoalSelection value) {
                 setState(() {
                   _goalSelection = value;

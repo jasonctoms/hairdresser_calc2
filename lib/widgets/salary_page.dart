@@ -17,32 +17,6 @@ class SalaryPage extends StatefulWidget {
 }
 
 class _SalaryPageState extends State<SalaryPage> {
-  int remainingIntake() {
-    var goalGross = context.watch<SalaryProvider>().goalGross;
-    var monthlyTreatments = context.watch<SalaryProvider>().monthlyTreatments;
-    var monthlySales = context.watch<SalaryProvider>().fixedSalary
-        ? context.watch<SalaryProvider>().monthlySales
-        : 0;
-    return goalGross - (monthlyTreatments + monthlySales);
-  }
-
-  int amountNeededPerDay() {
-    var daysLeft = context.watch<SalaryProvider>().daysLeft;
-    return (remainingIntake() / daysLeft).round();
-  }
-
-  int salaryWithCurrentIntake() {
-    var commissionValue = context.watch<SalaryProvider>().commissionValue;
-    var monthlyTreatments = context.watch<SalaryProvider>().monthlyTreatments;
-    return (monthlyTreatments * 0.8 * commissionValue).round();
-  }
-
-  int treatmentValuePerClient() {
-    var monthlyClients = context.watch<SalaryProvider>().monthlyClients;
-    var monthlyTreatments = context.watch<SalaryProvider>().monthlyTreatments;
-    return monthlyClients == 0 ? 0 : (monthlyTreatments / monthlyClients).round();
-  }
-
   @override
   Widget build(BuildContext context) {
     bool _fixedSalary = context.watch<SalaryProvider>().fixedSalary;
@@ -72,13 +46,13 @@ class _SalaryPageState extends State<SalaryPage> {
     );
 
     final currentSalary = Padding(
-      padding: EdgeInsets.only(top: 8.0),
+      padding: EdgeInsets.only(top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(Translations.of(context).salaryWithCurrentIntake),
           Text(
-            salaryWithCurrentIntake().toKroner(),
+            context.watch<SalaryProvider>().salaryWithCurrentIntake.toKroner(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.teal[300],
@@ -89,13 +63,13 @@ class _SalaryPageState extends State<SalaryPage> {
     );
 
     final treatmentsPerClient = Padding(
-      padding: EdgeInsets.only(top: 8.0),
+      padding: EdgeInsets.only(top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(Translations.of(context).treatmentsPerClient),
           Text(
-            treatmentValuePerClient().toKroner(),
+            context.watch<SalaryProvider>().treatmentValuePerClient.toKroner(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.teal[300],
@@ -132,7 +106,7 @@ class _SalaryPageState extends State<SalaryPage> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  remainingIntake().toKroner(),
+                  context.watch<SalaryProvider>().remainingIntake.toKroner(),
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -142,7 +116,7 @@ class _SalaryPageState extends State<SalaryPage> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  amountNeededPerDay().toKroner(),
+                  context.watch<SalaryProvider>().amountNeededPerDay.toKroner(),
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(

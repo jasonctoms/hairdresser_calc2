@@ -1,0 +1,51 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+          
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable' 
+
+      - run: flutter --version
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter pub get
+      - run: flutter format -l 100 --set-exit-if-changed .
+      - run: flutter analyze .
+      - run: flutter test
+      
+      - name: Download Android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: key.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        
+      - name: Create key.properties
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
+      - run: flutter build appbundle
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release-app-bundle
+          path: build/app/outputs/bundle/release/app-release.aab

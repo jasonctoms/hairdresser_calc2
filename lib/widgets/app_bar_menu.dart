@@ -33,6 +33,8 @@ class AppBarMenu extends StatelessWidget {
         return commission;
       case OptionsMenuSelection.RESET:
         return Translations.of(context).reset;
+      default:
+        throw Exception("Menu selection not handled.");
     }
   }
 

@@ -43,7 +43,7 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
-      - run: flutter build appbundle
+      - run: flutter build --build-number $GITHUB_RUN_NUMBER appbundle
 
       - uses: actions/upload-artifact@v2
         with:

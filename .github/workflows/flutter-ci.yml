@@ -8,6 +8,9 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  buildNumber: 100${{ github.run_number }}
   
 jobs:
   build:
@@ -43,7 +46,7 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
-      - run: flutter build appbundle --build-number=$GITHUB_RUN_NUMBER
+      - run: flutter build appbundle --build-number=${{ env.buildNumber }}
 
       - uses: actions/upload-artifact@v2
         with:
